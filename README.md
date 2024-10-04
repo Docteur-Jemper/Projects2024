@@ -9,15 +9,8 @@ Chaque jour de retard entrainera une pénalité.
 
 ## Introduction : 
 
-Vous êtes chargé de travailler en groupe sur un projet de développement de jeux. Les jeux disponibles pour le projet sont :
--	Pac-Man
--	Space Invaders (ou autre Shoot ‘Em Up)
--	Jeu de Dame (ou jeu d'échec)
--	Pong
--	Morpion 
--	Puissance 4
--	Othello
--	Autres petits jeux simples
+Vous êtes chargé de travailler en groupe sur un projet de développement de jeux. Le jeu sélectionné pour le projet est :
+-	Jeu de Dame 
 
 Chaque groupe, composé de 3 à 4 étudiants, devra choisir l'un de ces jeux, développer le code en respectant les normes de codage, rédiger un cahier des charges, un plan de test et une documentation technique complète, effectuer des tests unitaires avec un framework de test, pousser le code sur GitHub et effectuer une revue de code sur les pull-request.
 
