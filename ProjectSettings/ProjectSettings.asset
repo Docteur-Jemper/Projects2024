@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 5167c3029a6038246838e63ef07ee482
+  productGUID: 1803361302092ea49aa4772b5f971eba
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: JeuDeDames
+  productName: JeuDeDame
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -852,14 +852,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: JeuDeDames
+  metroPackageName: JeuDeDame
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: JeuDeDames
+  metroApplicationDescription: JeuDeDame
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -930,10 +930,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: a918743e-4d53-41f0-8807-66594ba46454
+  cloudProjectId: 768e7e9b-df7e-4401-aafa-8e0d37304864
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: JeuDeDames
+  projectName: JeuDeDame
   organizationId: toinouu
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
