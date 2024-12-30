@@ -114,7 +114,7 @@ public class CheckersGame : MonoBehaviour
             {
                 pawnScript.Highlight(new Color(0.2f, 0.2f, 0.2f)); // Gris foncé
             }
-        }
+        } 
     }
 
     private void PlayMoveSound()
