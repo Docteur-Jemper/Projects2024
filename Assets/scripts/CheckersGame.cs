@@ -6,6 +6,8 @@ public class CheckersGame : MonoBehaviour
     public static CheckersGame Instance;
 
     public GameObject boardPositions; // Référence à l'objet contenant les positions (BoardPositions)
+    public AudioClip moveSound; // Clip audio pour le déplacement des pions
+    private AudioSource audioSource; // Source audio pour jouer les sons
     private GameObject selectedPawn;  // Pion actuellement sélectionné
 
     private void Awake()
@@ -17,6 +19,13 @@ public class CheckersGame : MonoBehaviour
 
     private void Start()
     {
+        // Récupérer ou ajouter un AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
         // Met à jour les colliders des positions au démarrage
         UpdatePositionColliders();
     }
@@ -51,6 +60,9 @@ public class CheckersGame : MonoBehaviour
         selectedPawn.transform.position = position.transform.position;
 
         Debug.Log("Pion déplacé vers : " + position.name);
+
+        // Jouer le son de déplacement
+        PlayMoveSound();
 
         // Met à jour les colliders des positions après déplacement
         UpdatePositionColliders();
@@ -102,6 +114,14 @@ public class CheckersGame : MonoBehaviour
             {
                 pawnScript.Highlight(new Color(0.2f, 0.2f, 0.2f)); // Gris foncé
             }
+        }
+    }
+
+    private void PlayMoveSound()
+    {
+        if (audioSource != null && moveSound != null)
+        {
+            audioSource.PlayOneShot(moveSound);
         }
     }
 }
