@@ -10077,7 +10077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b816fab71748e46b00a6846ba21c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat:
+  skyboxes:
   - {fileID: 2100000, guid: 3930fc89a28b29746bde6a2389a513e0, type: 2}
   - {fileID: 2100000, guid: 77715b8b6b248994891d3ccad1ad330b, type: 2}
   - {fileID: 2100000, guid: ceb0a3ed2cb53a94fa21843cc958c52b, type: 2}

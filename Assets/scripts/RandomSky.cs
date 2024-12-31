@@ -2,12 +2,20 @@ using UnityEngine;
 
 public class RandomSky : MonoBehaviour
 {
-    public Material[] mat; // Liste de nos ciels (skyboxes)
+    public Material[] skyboxes; // Liste de nos ciels (skyboxes)
 
     void Start()
     {
-        int random = Random.Range(0, mat.Length); // Nombre aléatoire
-        RenderSettings.skybox = mat[random]; // Modification du ciel parmis celles présentes dans notre liste (liste définie sur Unity)
+        ApplyRandomSky(); // Appel de la méthode pour appliquer un ciel aléatoire
+    }
+
+    public void ApplyRandomSky()
+    {
+        if (skyboxes != null && skyboxes.Length > 0)
+        {
+            int random = Random.Range(0, skyboxes.Length); // Nombre aléatoire
+            RenderSettings.skybox = skyboxes[random]; // Modification du ciel parmis celles présentes dans notre liste
+        }
     }
 
     private void Update()
