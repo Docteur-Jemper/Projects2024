@@ -4,7 +4,7 @@ public class GameOptions : MonoBehaviour
 {
     public static GameOptions Instance;
 
-    public string selectedBoard = "checkers_classic"; // Plateau par défaut
+    public string selectedBoard = "checkers_wood"; // Plateau par défaut
 
     private void Awake()
     {

@@ -21,6 +21,12 @@ public class UIScript : MonoBehaviour
         Application.Quit();
     }
 
+    // Action de retour vers le menu principal
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void SelectClassicBoard()
     {
         GameOptions.Instance.SetBoard("checkers_classic");

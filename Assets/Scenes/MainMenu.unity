@@ -1372,7 +1372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5d30811abf40c4195c76f13900dbd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedBoard: checkers_classic
+  selectedBoard: checkers_wood
 --- !u!4 &794961171
 Transform:
   m_ObjectHideFlags: 0
