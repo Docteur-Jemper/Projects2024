@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CheckersGame : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class CheckersGame : MonoBehaviour
     public GameObject boardPositions; // Position actuelle du plateau
 
     public TextMeshProUGUI turnText; // Texte pour afficher le joueur actuel
-    public TextMeshProUGUI errorText;// Texte pour afficher les messages d'erreur
+    public TextMeshProUGUI errorText; // Texte pour afficher les messages d'erreur
+    public TextMeshProUGUI endGameText; // Texte pour afficher le message de fin de partie
 
     private bool isWhiteTurn = true; // Détermine si c'est au tour des blancs
     private bool hasMoved = false;   // Indique si le joueur a effectué un mouvement pendant son tour
@@ -46,10 +48,14 @@ public class CheckersGame : MonoBehaviour
         // Initialiser le texte du Canvas pour afficher qui doit jouer
         UpdateTurnText();
 
-        // Masquer le texte d'erreur au démarrage (s'affichera lorsqu'une erreur surviendra)
+        // Masquer le texte d'erreur et de fin au démarrage
         if (errorText != null)
         {
             errorText.gameObject.SetActive(false);
+        }
+        if (endGameText != null)
+        {
+            endGameText.gameObject.SetActive(false);
         }
     }
 
@@ -211,6 +217,9 @@ public class CheckersGame : MonoBehaviour
             bool isOccupied = IsPositionOccupied(position.position);
             collider.enabled = !isOccupied;
         }
+
+        // Vérifie la fin de la partie après la mise à jour des positions
+        CheckEndGame();
     }
 
     private bool IsPositionOccupied(Vector3 position)
@@ -273,5 +282,42 @@ public class CheckersGame : MonoBehaviour
         {
             audioSource.PlayOneShot(moveSound);
         }
+    }
+
+    private void CheckEndGame()
+    {
+        // Vérifie si une couleur n'a plus de pions
+        int whitePawns = FindObjectsOfType<PawnScript>().Count(pawn => pawn.name.ToLower().Contains("white"));
+        int darkPawns = FindObjectsOfType<PawnScript>().Count(pawn => pawn.name.ToLower().Contains("dark"));
+
+        if (whitePawns == 0)
+        {
+            EndGame("Les noirs gagnent !");
+        }
+        else if (darkPawns == 0)
+        {
+            EndGame("Les blancs gagnent !");
+        }
+    }
+
+    private void EndGame(string message)
+    {
+        // Affiche un message de fin de partie et redirige vers le menu principal après 2 secondes
+        if (endGameText != null)
+        {
+            endGameText.text = message;
+            endGameText.gameObject.SetActive(true);
+        }
+
+        Debug.Log(message);
+
+        // Lancer la redirection après 2 secondes
+        StartCoroutine(RedirectToMainMenu());
+    }
+
+    private IEnumerator RedirectToMainMenu()
+    {
+        yield return new WaitForSeconds(2); // Attend 2 secondes
+        SceneManager.LoadScene("MainMenu"); // Redirige vers le menu principal
     }
 }
