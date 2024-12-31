@@ -125,15 +125,23 @@ public class CheckersGame : MonoBehaviour
 
     public void ApplyBoardSelection()
     {
-        // Active le plateau sélectionné
+        // Vérifie si les références aux plateaux sont définies
+        if (checkersClassic == null || checkersWood == null)
+        {
+            Debug.LogError("Les références aux plateaux ne sont pas définies !");
+            return;
+        }
+
         string selectedBoard = GameOptions.Instance.selectedBoard;
 
+        // Si le plateau sélectionné est "checkers_classic"
         if (selectedBoard == "checkers_classic")
         {
             checkersClassic.SetActive(true);
             checkersWood.SetActive(false);
             boardPositions = boardPositionsClassic;
         }
+        // Si le plateau sélectionné est "checkers_wood"
         else if (selectedBoard == "checkers_wood")
         {
             checkersClassic.SetActive(false);
@@ -143,6 +151,7 @@ public class CheckersGame : MonoBehaviour
 
         Debug.Log("Plateau appliqué : " + selectedBoard);
     }
+
 
     public void OnPawnSelected(GameObject pawn)
     {
@@ -286,9 +295,11 @@ public class CheckersGame : MonoBehaviour
 
     private void CheckEndGame()
     {
-        // Vérifie si une couleur n'a plus de pions
+        // Vérifie si une couleur n'a plus de pion
         int whitePawns = FindObjectsOfType<PawnScript>().Count(pawn => pawn.name.ToLower().Contains("white"));
         int darkPawns = FindObjectsOfType<PawnScript>().Count(pawn => pawn.name.ToLower().Contains("dark"));
+
+        Debug.Log($"Pions blancs restants : {whitePawns}, Pions noirs restants : {darkPawns}");
 
         if (whitePawns == 0)
         {
@@ -299,6 +310,7 @@ public class CheckersGame : MonoBehaviour
             EndGame("Les blancs gagnent !");
         }
     }
+
 
     private void EndGame(string message)
     {

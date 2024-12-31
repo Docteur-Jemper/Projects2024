@@ -56,33 +56,47 @@ public class CheckersGameTests
     [Test]
     public void CheckEndGame_DisplaysWinningMessage()
     {
-        // Simule une condition de victoire
-        var pawns = Object.FindObjectsOfType<PawnScript>();
-        foreach (var pawn in pawns)
-        {
-            if (pawn.name.ToLower().Contains("white"))
-            {
-                Object.Destroy(pawn.gameObject);
-            }
-        }
+        // Simulez des pions blancs uniquement
+        var whitePawn = new GameObject("WhitePawn").AddComponent<PawnScript>();
+        whitePawn.name = "white_pawn";
 
+        var darkPawn = new GameObject("DarkPawn").AddComponent<PawnScript>();
+        darkPawn.name = "dark_pawn";
+
+        // Supprimer tous les pions noirs
+        Object.Destroy(darkPawn.gameObject);
+
+        // Appeler UpdatePositionColliders pour déclencher CheckEndGame
         checkersGame.UpdatePositionColliders();
-        Assert.AreEqual("Les noirs gagnent !", checkersGame.endGameText.text);
+
+        // Vérifier que le message de fin est affiché
+        Assert.AreEqual("Les blancs gagnent !", checkersGame.endGameText.text);
         Assert.IsTrue(checkersGame.endGameText.gameObject.activeSelf);
     }
+
 
     [Test]
     public void ApplyBoardSelection_ActivatesCorrectBoard()
     {
-        // Teste que le plateau sélectionné est activé
+        // Initialiser les GameObjects simulés
+        checkersGame.checkersClassic = new GameObject("ClassicBoard");
+        checkersGame.checkersWood = new GameObject("WoodBoard");
+
+        // Simulez la sélection d'un plateau
         GameOptions.Instance.SetBoard("checkers_classic");
         checkersGame.ApplyBoardSelection();
-        Assert.IsTrue(checkersGame.boardPositionsClassic.activeSelf);
-        Assert.IsFalse(checkersGame.boardPositionsWood.activeSelf);
 
+        // Vérifie que le plateau classique est activé
+        Assert.IsTrue(checkersGame.checkersClassic.activeSelf);
+        Assert.IsFalse(checkersGame.checkersWood.activeSelf);
+
+        // Changer de plateau
         GameOptions.Instance.SetBoard("checkers_wood");
         checkersGame.ApplyBoardSelection();
-        Assert.IsTrue(checkersGame.boardPositionsWood.activeSelf);
-        Assert.IsFalse(checkersGame.boardPositionsClassic.activeSelf);
+
+        // Vérifier que le plateau en bois est activé
+        Assert.IsTrue(checkersGame.checkersWood.activeSelf);
+        Assert.IsFalse(checkersGame.checkersClassic.activeSelf);
     }
+
 }

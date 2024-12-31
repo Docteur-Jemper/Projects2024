@@ -31,10 +31,12 @@ public class PawnScript : MonoBehaviour
 
     public void ResetColor()
     {
-        if (pawnRenderer != null)
-        {
-            pawnRenderer.material.color = originalColor; // Restaurer la couleur d'origine
+        if (pawnRenderer == null)
+        {         
+            return;
         }
+
+        pawnRenderer.material.color = originalColor;
     }
 
     public void TransformToQueen()
