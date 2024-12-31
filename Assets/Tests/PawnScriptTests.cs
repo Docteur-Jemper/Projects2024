@@ -36,4 +36,20 @@ public class PawnScriptTests
 
         Assert.AreEqual(Color.red, renderer.material.color);
     }
+
+    [Test]
+    public void ResetColor_RestoresOriginalColor()
+    {
+        var renderer = pawnScript.gameObject.AddComponent<MeshRenderer>();
+        var material = new Material(Shader.Find("Standard"));
+        renderer.material = material;
+
+        Color originalColor = Color.blue;
+        renderer.material.color = originalColor;
+
+        pawnScript.Highlight(Color.red);
+        pawnScript.ResetColor();
+
+        Assert.AreEqual(originalColor, renderer.material.color);
+    }
 }

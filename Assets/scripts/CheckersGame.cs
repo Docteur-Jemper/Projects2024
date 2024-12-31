@@ -21,7 +21,7 @@ public class CheckersGame : MonoBehaviour
     public TextMeshProUGUI errorText; // Texte pour afficher les messages d'erreur
     public TextMeshProUGUI endGameText; // Texte pour afficher le message de fin de partie
 
-    private bool isWhiteTurn = true; // Détermine si c'est au tour des blancs
+    internal bool IsWhiteTurn { get; private set; } = true; // Détermine si c'est au tour des blancs
     private bool hasMoved = false;   // Indique si le joueur a effectué un mouvement pendant son tour
 
     private void Awake()
@@ -74,10 +74,10 @@ public class CheckersGame : MonoBehaviour
         }
     }
 
-    private void SwitchTurn()
+    public void SwitchTurn()
     {
         // Alterne entre les tours
-        isWhiteTurn = !isWhiteTurn;
+        IsWhiteTurn = !IsWhiteTurn;
 
         // Réinitialiser le pion sélectionné
         if (selectedPawn != null)
@@ -97,16 +97,16 @@ public class CheckersGame : MonoBehaviour
         UpdateTurnText();
     }
 
-    private void UpdateTurnText()
+    public void UpdateTurnText()
     {
         // Mis à jour du texte du Canvas pour le changement de tour
         if (turnText != null)
         {
-            turnText.text = $"Au tour du joueur : {(isWhiteTurn ? "blanc" : "noir")}";
+            turnText.text = $"Au tour du joueur : {(IsWhiteTurn ? "blanc" : "noir")}";
         }
     }
 
-    private void ShowErrorMessage(string message)
+    public void ShowErrorMessage(string message)
     {
         // Affichage d'un message d'erreur dans le Canvas
         if (errorText != null)
@@ -123,7 +123,7 @@ public class CheckersGame : MonoBehaviour
         errorText.gameObject.SetActive(false); // Cache le message
     }
 
-    private void ApplyBoardSelection()
+    public void ApplyBoardSelection()
     {
         // Active le plateau sélectionné
         string selectedBoard = GameOptions.Instance.selectedBoard;
@@ -147,8 +147,8 @@ public class CheckersGame : MonoBehaviour
     public void OnPawnSelected(GameObject pawn)
     {
         // Vérifie si le pion appartient au joueur qui doit jouer
-        if (isWhiteTurn && !pawn.name.ToLower().Contains("white") || // Si le nom du pion sélectionné contient la couleur adverse et pas la nôtre
-            !isWhiteTurn && !pawn.name.ToLower().Contains("dark"))
+        if (IsWhiteTurn && !pawn.name.ToLower().Contains("white") || // Si le nom du pion sélectionné contient la couleur adverse et pas la nôtre
+            !IsWhiteTurn && !pawn.name.ToLower().Contains("dark"))
         {
             Debug.Log("Ce n'est pas votre tour !");
             return;
