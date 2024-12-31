@@ -78,8 +78,33 @@ public class CheckersGame : MonoBehaviour
 
         selectedPawn.transform.position = position.transform.position;
         Debug.Log("Pion déplacé vers : " + position.name);
+
+        // Vérifie si le pion doit devenir une dame
+        CheckForQueen(selectedPawn, position.name);
+
         PlayMoveSound();
         UpdatePositionColliders();
+    }
+
+    private void CheckForQueen(GameObject pawn, string positionName)
+    {
+        PawnScript pawnScript = pawn.GetComponent<PawnScript>();
+        if (pawnScript == null || pawnScript.isQueen) return;
+
+        // Positions de promotion pour les pions blancs
+        string[] whiteQueenPositions = { "Pos29", "Pos30", "Pos31", "Pos32" };
+
+        // Positions de promotion pour les pions noirs
+        string[] blackQueenPositions = { "Pos1", "Pos2", "Pos3", "Pos4" };
+
+        if (pawn.name.ToLower().Contains("white") && whiteQueenPositions.Contains(positionName))
+        {
+            pawnScript.TransformToQueen();
+        }
+        else if (pawn.name.ToLower().Contains("dark") && blackQueenPositions.Contains(positionName))
+        {
+            pawnScript.TransformToQueen();
+        }
     }
 
     private void UpdatePositionColliders()
@@ -120,26 +145,26 @@ public class CheckersGame : MonoBehaviour
             {
                 if (pawn.name.ToLower().Contains("white"))
                 {
-                    // Couleur blanche pour plateau classique (dérivée de blanc)
+                    // Couleur de sélection pour pion blanc classique
                     pawnScript.Highlight(new Color(0.9f, 0.9f, 1.0f));
                 }
                 else if (pawn.name.ToLower().Contains("dark"))
                 {
-                    // Couleur noire pour plateau classique (dérivée de noir)
-                    pawnScript.Highlight(new Color(0.4f, 0.4f, 0.5f));
+                    // Couleur de sélection pour pion noir classique
+                    pawnScript.Highlight(new Color(0.3f, 0.3f, 0.5f));
                 }
             }
             else if (selectedBoard == "checkers_wood")
             {
                 if (pawn.name.ToLower().Contains("white"))
                 {
-                    // Surbrillance pour pion bois clair
-                    pawnScript.Highlight(new Color(1.0f, 0.85f, 0.6f)); 
+                    // Couleur de sélection pour pion bois clair
+                    pawnScript.Highlight(new Color(1.0f, 0.85f, 0.6f));
                 }
                 else if (pawn.name.ToLower().Contains("dark"))
                 {
-                    // Surbrillance pour pion bois foncé
-                    pawnScript.Highlight(new Color(0.6f, 0.4f, 0.2f)); 
+                    // Couleur de sélection pour pion bois foncé 
+                    pawnScript.Highlight(new Color(0.1f, 0.1f, 0.1f));
                 }
             }
         }

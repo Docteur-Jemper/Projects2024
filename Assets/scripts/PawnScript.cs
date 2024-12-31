@@ -2,23 +2,27 @@ using UnityEngine;
 
 public class PawnScript : MonoBehaviour
 {
-    public Material originalMaterial; // Matériau d'origine (à définir dans l'inspecteur)
+    public bool isQueen = false; // Indique si ce pion est une dame
     private Renderer pawnRenderer;
+    public GameObject crown; // Référence à la couronne (assignée dans l'inspecteur)
+    private Color originalColor; // Stocke la couleur d'origine
 
     private void Start()
     {
-        // Récupérer le Renderer du pion
         pawnRenderer = GetComponent<Renderer>();
-        if (pawnRenderer != null && originalMaterial == null)
+        if (pawnRenderer != null)
         {
-            // Si aucun matériau d'origine n'est défini dans l'inspecteur, le stocker automatiquement
-            originalMaterial = pawnRenderer.material;
+            originalColor = pawnRenderer.material.color; // Stocke la couleur d'origine
+        }
+
+        if (crown != null)
+        {
+            crown.SetActive(false); // Masquer la couronne au début
         }
     }
 
     public void Highlight(Color highlightColor)
     {
-        // Appliquer une couleur de surbrillance
         if (pawnRenderer != null)
         {
             pawnRenderer.material.color = highlightColor;
@@ -27,16 +31,24 @@ public class PawnScript : MonoBehaviour
 
     public void ResetColor()
     {
-        // Réappliquer le matériau d'origine
-        if (pawnRenderer != null && originalMaterial != null)
+        if (pawnRenderer != null)
         {
-            pawnRenderer.material = originalMaterial;
+            pawnRenderer.material.color = originalColor; // Restaurer la couleur d'origine
         }
+    }
+
+    public void TransformToQueen()
+    {
+        isQueen = true; // Marquer comme une dame
+        if (crown != null)
+        {
+            crown.SetActive(true); // Afficher la couronne
+        }
+        Debug.Log(gameObject.name + " est devenu une dame !");
     }
 
     private void OnMouseDown()
     {
-        // Notifier le script CheckersGame lors d'un clic sur le pion
-        CheckersGame.Instance.OnPawnSelected(this.gameObject);
+        CheckersGame.Instance.OnPawnSelected(gameObject);
     }
 }
