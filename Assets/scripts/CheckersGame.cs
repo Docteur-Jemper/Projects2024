@@ -21,7 +21,7 @@ public class CheckersGame : MonoBehaviour
     }
 
     private void Start()
-    {
+    {   
         // Récupérer ou ajouter un AudioSource
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -86,6 +86,27 @@ public class CheckersGame : MonoBehaviour
         UpdatePositionColliders();
     }
 
+    public void DeletePawnAtPosition(Vector3 position)
+    {
+        Debug.Log($"DeletePawnAtPosition appelé pour la position : {position}");
+
+        // Trouver tous les pions dans la scène
+        PawnScript[] allPawns = FindObjectsOfType<PawnScript>();
+
+        foreach (PawnScript pawn in allPawns)
+        {          
+            if (Vector3.Distance(pawn.transform.position, position) < 0.01f)
+            {
+                Debug.Log($"Pion supprimé : {pawn.gameObject.name}");
+                Destroy(pawn.gameObject);
+                UpdatePositionColliders();
+                return;
+            }
+        }
+
+        Debug.Log("Aucun pion trouvé à la position donnée.");
+    }
+
     private void CheckForQueen(GameObject pawn, string positionName)
     {
         PawnScript pawnScript = pawn.GetComponent<PawnScript>();
@@ -107,7 +128,7 @@ public class CheckersGame : MonoBehaviour
         }
     }
 
-    private void UpdatePositionColliders()
+    public void UpdatePositionColliders()
     {
         foreach (Transform position in boardPositions.transform)
         {

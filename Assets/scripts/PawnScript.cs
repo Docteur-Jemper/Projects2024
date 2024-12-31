@@ -47,8 +47,19 @@ public class PawnScript : MonoBehaviour
         Debug.Log(gameObject.name + " est devenu une dame !");
     }
 
-    private void OnMouseDown()
+    private void OnMouseOver()
     {
-        CheckersGame.Instance.OnPawnSelected(gameObject);
+        if (Input.GetMouseButtonDown(0)) // Clic gauche
+        {
+            CheckersGame.Instance.OnPawnSelected(gameObject);
+        }
+        else if (Input.GetMouseButtonDown(1)) // Clic droit
+        {
+            // Supprimer le pion
+            Destroy(gameObject);
+
+            // Mettre à jour les colliders immédiatement après la suppression
+            CheckersGame.Instance.UpdatePositionColliders();
+        }
     }
 }

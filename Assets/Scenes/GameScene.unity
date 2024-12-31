@@ -14070,6 +14070,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: checkers_wood_white_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7931747786896621389, guid: 047534e7bc5b6d846879be0d92877d6e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8316643833315551676, guid: 047534e7bc5b6d846879be0d92877d6e, type: 3}
       propertyPath: m_RootOrder
       value: -1

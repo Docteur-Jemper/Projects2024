@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class UIScript : MonoBehaviour
 {
+    // Au démarrage (lancement du jeu)
     private void Start()
     {
         // Met à jour l'apparence du plateau sélectionné au démarrage
