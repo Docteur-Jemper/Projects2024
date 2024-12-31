@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class CheckersGame : MonoBehaviour
@@ -14,6 +16,12 @@ public class CheckersGame : MonoBehaviour
     private GameObject selectedPawn;  // Pion actuellement sélectionné
     public GameObject boardPositions; // Position actuelle du plateau
 
+    public TextMeshProUGUI turnText; // Référence au TextMeshProUGUI pour afficher le tour du joueur
+    public TextMeshProUGUI errorText; // Référence au TextMeshProUGUI pour afficher les messages d'erreur
+
+    private bool isWhiteTurn = true; // Détermine si c'est au tour des blancs
+    private bool hasMoved = false;   // Indique si le joueur a effectué un mouvement pendant son tour
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -21,7 +29,7 @@ public class CheckersGame : MonoBehaviour
     }
 
     private void Start()
-    {   
+    {
         // Récupérer ou ajouter un AudioSource
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
@@ -34,6 +42,77 @@ public class CheckersGame : MonoBehaviour
 
         // Met à jour les colliders des positions
         UpdatePositionColliders();
+
+        // Initialiser le texte du Canvas pour afficher le tour
+        UpdateTurnText();
+
+        // Masquer le texte d'erreur au démarrage
+        if (errorText != null)
+        {
+            errorText.gameObject.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        // Validation du tour par appui sur la touche "Entrée"
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            if (!hasMoved)
+            {
+                ShowErrorMessage("Jouez avant de passer votre tour !");
+                return;
+            }
+
+            SwitchTurn();
+        }
+    }
+
+    private void SwitchTurn()
+    {
+        // Alterne entre les tours
+        isWhiteTurn = !isWhiteTurn;
+
+        // Réinitialiser le pion sélectionné
+        if (selectedPawn != null)
+        {
+            PawnScript previousPawnScript = selectedPawn.GetComponent<PawnScript>();
+            if (previousPawnScript != null)
+            {
+                previousPawnScript.ResetColor();
+            }
+            selectedPawn = null;
+        }
+
+        // Réinitialise l'état du mouvement pour le prochain joueur
+        hasMoved = false;
+
+        // Met à jour le texte du Canvas
+        UpdateTurnText();
+    }
+
+    private void UpdateTurnText()
+    {
+        if (turnText != null)
+        {
+            turnText.text = $"Au tour du joueur : {(isWhiteTurn ? "blanc" : "noir")}";
+        }
+    }
+
+    private void ShowErrorMessage(string message)
+    {
+        if (errorText != null)
+        {
+            errorText.text = message;
+            StartCoroutine(DisplayErrorMessage());
+        }
+    }
+
+    private IEnumerator DisplayErrorMessage()
+    {
+        errorText.gameObject.SetActive(true); // Affiche le message
+        yield return new WaitForSeconds(2); // Attend 2 secondes
+        errorText.gameObject.SetActive(false); // Cache le message
     }
 
     private void ApplyBoardSelection()
@@ -58,6 +137,14 @@ public class CheckersGame : MonoBehaviour
 
     public void OnPawnSelected(GameObject pawn)
     {
+        // Vérifie si le pion appartient au joueur qui doit jouer
+        if (isWhiteTurn && !pawn.name.ToLower().Contains("white") ||
+            !isWhiteTurn && !pawn.name.ToLower().Contains("dark"))
+        {
+            Debug.Log("Ce n'est pas votre tour !");
+            return;
+        }
+
         if (selectedPawn != null)
         {
             PawnScript previousPawnScript = selectedPawn.GetComponent<PawnScript>();
@@ -79,6 +166,9 @@ public class CheckersGame : MonoBehaviour
         selectedPawn.transform.position = position.transform.position;
         Debug.Log("Pion déplacé vers : " + position.name);
 
+        // Indique qu'un mouvement a été effectué
+        hasMoved = true;
+
         // Vérifie si le pion doit devenir une dame
         CheckForQueen(selectedPawn, position.name);
 
@@ -94,7 +184,7 @@ public class CheckersGame : MonoBehaviour
         PawnScript[] allPawns = FindObjectsOfType<PawnScript>();
 
         foreach (PawnScript pawn in allPawns)
-        {          
+        {
             if (Vector3.Distance(pawn.transform.position, position) < 0.01f)
             {
                 Debug.Log($"Pion supprimé : {pawn.gameObject.name}");
