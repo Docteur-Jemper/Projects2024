@@ -13,12 +13,14 @@ public class UIScript : MonoBehaviour
     // Action de lancement de la partie (Interface menu)
     public void PlayGame()
     {
+        // Charge la scène de jeu
         SceneManager.LoadScene("GameScene");
     }
 
     // Action de quitter le jeu (Interface menu)
     public void QuitGame()
     {
+        // Quitte l'application
         Application.Quit();
     }
 
@@ -30,12 +32,14 @@ public class UIScript : MonoBehaviour
 
     public void SelectClassicBoard()
     {
+        // Sélectionne le plateau classique
         GameOptions.Instance.SetBoard("checkers_classic");
         UpdateBoardSelectionVisuals();
     }
 
     public void SelectWoodBoard()
     {
+        // Sélectionne le plateau en bois
         GameOptions.Instance.SetBoard("checkers_wood");
         UpdateBoardSelectionVisuals();
     }

@@ -2,26 +2,27 @@ using UnityEngine;
 
 public class GameOptions : MonoBehaviour
 {
-    public static GameOptions Instance;
+    public static GameOptions Instance; // Singleton pour gérer les options globales
 
-    public string selectedBoard = "checkers_wood"; // Plateau par défaut
+    public string selectedBoard = "checkers_wood"; // Plateau par défaut (en bois)
 
     private void Awake()
     {
-        // Singleton pour garder les paramètres entre les scènes
+        // Implémentation du singleton pour garantir qu'une seule instance de GameOptions existe
         if (Instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            Instance = this; // Assigne l'instance actuelle
+            DontDestroyOnLoad(gameObject); // Conserve l'objet entre les scènes
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Détruit les instances supplémentaires
         }
     }
 
     public void SetBoard(string boardName)
     {
+        // Définit le plateau sélectionné
         selectedBoard = boardName;
         Debug.Log("Plateau sélectionné : " + selectedBoard);
     }

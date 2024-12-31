@@ -55,11 +55,14 @@ public class PawnScript : MonoBehaviour
         }
         else if (Input.GetMouseButtonDown(1)) // Clic droit
         {
-            // Supprimer le pion
-            Destroy(gameObject);
+            // Désactiver le pion pour qu'il ne soit plus détecté
+            gameObject.SetActive(false);
 
-            // Mettre à jour les colliders immédiatement après la suppression
+            // Mettre à jour les cases jouables
             CheckersGame.Instance.UpdatePositionColliders();
+
+            // Supprimer le pion
+            Destroy(gameObject);            
         }
     }
 }

@@ -16,8 +16,8 @@ public class CheckersGame : MonoBehaviour
     private GameObject selectedPawn;  // Pion actuellement sélectionné
     public GameObject boardPositions; // Position actuelle du plateau
 
-    public TextMeshProUGUI turnText; // Référence au TextMeshProUGUI pour afficher le tour du joueur
-    public TextMeshProUGUI errorText; // Référence au TextMeshProUGUI pour afficher les messages d'erreur
+    public TextMeshProUGUI turnText; // Texte pour afficher le joueur actuel
+    public TextMeshProUGUI errorText;// Texte pour afficher les messages d'erreur
 
     private bool isWhiteTurn = true; // Détermine si c'est au tour des blancs
     private bool hasMoved = false;   // Indique si le joueur a effectué un mouvement pendant son tour
@@ -40,13 +40,13 @@ public class CheckersGame : MonoBehaviour
         // Appliquer le plateau sélectionné
         ApplyBoardSelection();
 
-        // Met à jour les colliders des positions
+        // Met à jour les colliders (zones de détection) des positions 
         UpdatePositionColliders();
 
-        // Initialiser le texte du Canvas pour afficher le tour
+        // Initialiser le texte du Canvas pour afficher qui doit jouer
         UpdateTurnText();
 
-        // Masquer le texte d'erreur au démarrage
+        // Masquer le texte d'erreur au démarrage (s'affichera lorsqu'une erreur surviendra)
         if (errorText != null)
         {
             errorText.gameObject.SetActive(false);
@@ -93,6 +93,7 @@ public class CheckersGame : MonoBehaviour
 
     private void UpdateTurnText()
     {
+        // Mis à jour du texte du Canvas pour le changement de tour
         if (turnText != null)
         {
             turnText.text = $"Au tour du joueur : {(isWhiteTurn ? "blanc" : "noir")}";
@@ -101,6 +102,7 @@ public class CheckersGame : MonoBehaviour
 
     private void ShowErrorMessage(string message)
     {
+        // Affichage d'un message d'erreur dans le Canvas
         if (errorText != null)
         {
             errorText.text = message;
@@ -117,6 +119,7 @@ public class CheckersGame : MonoBehaviour
 
     private void ApplyBoardSelection()
     {
+        // Active le plateau sélectionné
         string selectedBoard = GameOptions.Instance.selectedBoard;
 
         if (selectedBoard == "checkers_classic")
@@ -138,7 +141,7 @@ public class CheckersGame : MonoBehaviour
     public void OnPawnSelected(GameObject pawn)
     {
         // Vérifie si le pion appartient au joueur qui doit jouer
-        if (isWhiteTurn && !pawn.name.ToLower().Contains("white") ||
+        if (isWhiteTurn && !pawn.name.ToLower().Contains("white") || // Si le nom du pion sélectionné contient la couleur adverse et pas la nôtre
             !isWhiteTurn && !pawn.name.ToLower().Contains("dark"))
         {
             Debug.Log("Ce n'est pas votre tour !");
@@ -176,27 +179,6 @@ public class CheckersGame : MonoBehaviour
         UpdatePositionColliders();
     }
 
-    public void DeletePawnAtPosition(Vector3 position)
-    {
-        Debug.Log($"DeletePawnAtPosition appelé pour la position : {position}");
-
-        // Trouver tous les pions dans la scène
-        PawnScript[] allPawns = FindObjectsOfType<PawnScript>();
-
-        foreach (PawnScript pawn in allPawns)
-        {
-            if (Vector3.Distance(pawn.transform.position, position) < 0.01f)
-            {
-                Debug.Log($"Pion supprimé : {pawn.gameObject.name}");
-                Destroy(pawn.gameObject);
-                UpdatePositionColliders();
-                return;
-            }
-        }
-
-        Debug.Log("Aucun pion trouvé à la position donnée.");
-    }
-
     private void CheckForQueen(GameObject pawn, string positionName)
     {
         PawnScript pawnScript = pawn.GetComponent<PawnScript>();
@@ -220,6 +202,7 @@ public class CheckersGame : MonoBehaviour
 
     public void UpdatePositionColliders()
     {
+        // Mise à jour des cases jouables
         foreach (Transform position in boardPositions.transform)
         {
             BoxCollider collider = position.GetComponent<BoxCollider>();
@@ -232,21 +215,23 @@ public class CheckersGame : MonoBehaviour
 
     private bool IsPositionOccupied(Vector3 position)
     {
+        // Vérifier qu'une case est libre
         PawnScript[] allPawns = FindObjectsOfType<PawnScript>();
 
         foreach (PawnScript pawn in allPawns)
         {
             if (Vector3.Distance(pawn.transform.position, position) < 0.01f)
             {
-                return true;
+                return true; // La case est occupée
             }
         }
 
-        return false;
+        return false; // La case est libre
     }
 
     private void HighlightPawn(GameObject pawn)
     {
+        // Changer la couleur des pions sélectionnés
         PawnScript pawnScript = pawn.GetComponent<PawnScript>();
         if (pawnScript != null)
         {
@@ -283,6 +268,7 @@ public class CheckersGame : MonoBehaviour
 
     private void PlayMoveSound()
     {
+        // Joueur un son au déplacement d'un pion
         if (audioSource != null && moveSound != null)
         {
             audioSource.PlayOneShot(moveSound);
