@@ -2,11 +2,17 @@ using NUnit.Framework;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Tests unitaires pour la classe CheckersGame qui gère la logique principale du jeu de dames.
+/// </summary>
 public class CheckersGameTests
 {
     private CheckersGame checkersGame;
 
     [SetUp]
+    /// <summary>
+    /// Prépare le test en instanciant un objet avec le script CheckersGame attaché.
+    /// </summary>
     public void Setup()
     {
         // Crée un GameObject et attache le script CheckersGame
@@ -24,6 +30,9 @@ public class CheckersGameTests
     }
 
     [Test]
+    /// <summary>
+    /// Vérifie que le changement de tour alterne correctement entre les joueurs.
+    /// </summary>
     public void SwitchTurn_AlternatesPlayerTurns()
     {
         // Teste que le changement de tour alterne correctement entre les joueurs
@@ -33,6 +42,9 @@ public class CheckersGameTests
     }
 
     [Test]
+    /// <summary>
+    /// Vérifie que les messages d'erreur sont correctement affichés.
+    /// </summary>
     public void ShowErrorMessage_DisplaysErrorText()
     {
         // Teste que les messages d'erreur sont affichés correctement
@@ -42,6 +54,9 @@ public class CheckersGameTests
     }
 
     [Test]
+    /// <summary>
+    /// Vérifie que le texte du tour correspond au joueur actuel.
+    /// </summary>
     public void UpdateTurnText_ReflectsCurrentPlayer()
     {
         // Teste que le texte du tour correspond au joueur actuel
@@ -54,6 +69,9 @@ public class CheckersGameTests
     }
 
     [Test]
+    /// <summary>
+    /// Vérifie que la méthode CheckEndGame affiche correctement le message de victoire.
+    /// </summary>
     public void CheckEndGame_DisplaysWinningMessage()
     {
         // Simulez des pions blancs uniquement
@@ -76,6 +94,9 @@ public class CheckersGameTests
 
 
     [Test]
+    /// <summary>
+    /// Vérifie que la méthode ApplyBoardSelection active le plateau sélectionné et désactive l'autre.
+    /// </summary>
     public void ApplyBoardSelection_ActivatesCorrectBoard()
     {
         // Initialiser les GameObjects simulés

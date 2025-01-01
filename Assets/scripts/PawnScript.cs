@@ -3,21 +3,24 @@ using UnityEngine;
 public class PawnScript : MonoBehaviour
 {
     public bool isQueen = false; // Indique si ce pion est une dame
-    private Renderer pawnRenderer;
+    private Renderer pawnRenderer; // Référence au composant Renderer du pion
     public GameObject crown; // Référence à la couronne (assignée dans l'inspecteur)
     private Color originalColor; // Stocke la couleur d'origine
 
     private void Start()
     {
+        // Initialisation du Renderer pour accéder au matériau du pion
         pawnRenderer = GetComponent<Renderer>();
         if (pawnRenderer != null)
         {
-            originalColor = pawnRenderer.material.color; // Stocke la couleur d'origine
+            // Sauvegarde de la couleur initiale du pion
+            originalColor = pawnRenderer.material.color; 
         }
 
+        // Cache la couronne au démarrage, car le pion n'est pas encore une dame
         if (crown != null)
         {
-            crown.SetActive(false); // Masquer la couronne au début
+            crown.SetActive(false); 
         }
     }
 
@@ -25,7 +28,7 @@ public class PawnScript : MonoBehaviour
     {
         if (pawnRenderer != null)
         {
-            pawnRenderer.material.color = highlightColor;
+            pawnRenderer.material.color = highlightColor; // Applique la couleur spécifiée
         }
     }
 
@@ -33,18 +36,19 @@ public class PawnScript : MonoBehaviour
     {
         if (pawnRenderer == null)
         {         
-            return;
+            return; // Sort de la méthode si le Renderer n'est pas initialisé
         }
 
+        // Réinitialise la couleur au matériau d'origine
         pawnRenderer.material.color = originalColor;
     }
 
     public void TransformToQueen()
     {
-        isQueen = true; // Marquer comme une dame
+        isQueen = true; // Marque le pion comme étant une dame
         if (crown != null)
         {
-            crown.SetActive(true); // Afficher la couronne
+            crown.SetActive(true); // Affiche la couronne pour indiquer la promotion
         }
         Debug.Log(gameObject.name + " est devenu une dame !");
     }
@@ -63,7 +67,7 @@ public class PawnScript : MonoBehaviour
             // Mettre à jour les cases jouables
             CheckersGame.Instance.UpdatePositionColliders();
 
-            // Supprimer le pion
+            // Détruit définitivement le pion
             Destroy(gameObject);            
         }
     }
